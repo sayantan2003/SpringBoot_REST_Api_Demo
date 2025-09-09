@@ -10,7 +10,7 @@ This is a beginner-friendly Spring Boot project designed to help you understand 
 🔴 **Delete User:** Removes a user by their unique ID using DELETE  
 🟢 **Search User by ID:** Retrieves user info via GET  
 🟢 **Search User by Email:** Fetches user details using email  
-🟢 **List All Users:** Displays all users stored in the system , pagination
+🟢 **List All Users:** Displays all users stored in the system , pagination ,sorting
 🟡 **Update User:** Modifies existing user data using PUT  
 
 

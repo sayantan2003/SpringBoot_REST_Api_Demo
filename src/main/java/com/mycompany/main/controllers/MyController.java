@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,12 +38,23 @@ public class MyController {
 	}
 	
 	@GetMapping("/list")
-	public List<User> getAllUserDetails(@RequestParam (required = false, defaultValue = "1") int pageNo,@RequestParam (required = false, defaultValue = "4") int pageSize) {
+	public List<User> getAllUserDetails(
+			@RequestParam (required = false, defaultValue = "1") int pageNo,
+			@RequestParam (required = false, defaultValue = "4") int pageSize,
+			@RequestParam (required = false, defaultValue = "id") String sortBy ,
+			@RequestParam (required = false, defaultValue = "Asc") String sortDir
+			) {
 		
 		//select *from user limit pageSize offset (pageNo -1)*pageSize 
+		Sort sort = null;
 		
-		
-		Pageable pageable = PageRequest.of(pageNo - 1,pageSize);
+		if(sortDir.equalsIgnoreCase("ASC")) {
+			sort = Sort.by(sortBy).ascending();
+		}
+		else {
+			sort = Sort.by(sortBy).descending();
+		}
+		Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
 		return userService.getAllUsers(pageable);
 	}
 	
@@ -55,6 +67,7 @@ public class MyController {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getUserDetailsById(@PathVariable int id) {
+		
 	    System.out.println("Fetching user with ID: " + id);
 	    try {
 	        Optional<User> userOpt = userService.getUserById(id);
