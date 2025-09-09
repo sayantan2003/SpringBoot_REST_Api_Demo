@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,39 +14,46 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mycompany.main.entities.User;
 import com.mycompany.main.services.UserServices;
 
 @RestController
+@RequestMapping("/user")
 public class MyController {
 	
 	@Autowired
 	private UserServices userService;
 	
 	
-	@PostMapping("/user")
+	@PostMapping("/add")
 	public User addUserDetails(@RequestBody User user) {
 		
 		System.out.println("controller : "+user);
 		return userService.CreateUser(user);
 	}
 	
-	@GetMapping("/users")
-	public List<User> getAllUserDetails() {
+	@GetMapping("/list")
+	public List<User> getAllUserDetails(@RequestParam (required = false, defaultValue = "1") int pageNo,@RequestParam (required = false, defaultValue = "4") int pageSize) {
 		
-		return userService.getAllUsers();
+		//select *from user limit pageSize offset (pageNo -1)*pageSize 
+		
+		
+		Pageable pageable = PageRequest.of(pageNo - 1,pageSize);
+		return userService.getAllUsers(pageable);
 	}
 	
-	@GetMapping("/user/email/{email}")
+	@GetMapping("/email/{email}")
 	public User getUserDetailsByEmail(@PathVariable String email) {
 		
 		return userService.getUserByEmail(email);
 	}
 	
 	
-	@GetMapping("/user/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<?> getUserDetailsById(@PathVariable int id) {
 	    System.out.println("Fetching user with ID: " + id);
 	    try {
@@ -61,7 +70,7 @@ public class MyController {
 	}
 	
 	
-	@PutMapping("/user/{id}")
+	@PutMapping("/{id}")
 	public ResponseEntity<User> updateUserDetails(@PathVariable int id,@RequestBody User user) {
 		User updatedUser = userService.updateUser(id, user);
 		if(updatedUser != null) {
@@ -73,7 +82,7 @@ public class MyController {
 	}
 	
 	
-	@DeleteMapping("/user/{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<?>deleteUserDetailsById(@PathVariable int id){
 		int status = userService.deleteUserById(id);
 		if(status == 1) {

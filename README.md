@@ -10,7 +10,7 @@ This is a beginner-friendly Spring Boot project designed to help you understand 
 🔴 **Delete User:** Removes a user by their unique ID using DELETE  
 🟢 **Search User by ID:** Retrieves user info via GET  
 🟢 **Search User by Email:** Fetches user details using email  
-🟢 **List All Users:** Displays all users stored in the system  
+🟢 **List All Users:** Displays all users stored in the system , pagination
 🟡 **Update User:** Modifies existing user data using PUT  
 
 
@@ -29,9 +29,9 @@ This is a beginner-friendly Spring Boot project designed to help you understand 
 - Maven
 
 ## 📁 Sample Endpoints
-**POST**    /api/user                  → Add new user  
+**POST**    /api/add                   → Add new user  
 **GET**     /api/user/{id}             → Get user by ID  
 **GET**     /api/user/email/{email}    → Get user by email  
-**GET**     /api/users                 → List all users  
+**GET**     /api/list                  → List all users  
 **PUT**     /api/user/{id}             → Update user  
 **DELETE**  /api/user/{id}             → Delete user  

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.mycompany.main.entities.User;
@@ -11,7 +12,7 @@ import com.mycompany.main.repo.UserRepository;
 
 
 @Service
-public class UserServicesImpl implements UserServices {
+public  class UserServicesImpl implements UserServices {
 	
 	@Autowired
 	private UserRepository userRepository;
@@ -23,9 +24,9 @@ public class UserServicesImpl implements UserServices {
 	}
 
 	@Override
-	public List<User> getAllUsers() {
+	public List<User> getAllUsers(Pageable pageable) {
 		
-		return userRepository.findAll();
+		return userRepository.findAll(pageable).getContent();
 	}
 
 	@Override
@@ -64,4 +65,5 @@ public class UserServicesImpl implements UserServices {
 			return 0;
 		}		
 	}
+
 }
