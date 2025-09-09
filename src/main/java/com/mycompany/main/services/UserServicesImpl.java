@@ -24,9 +24,15 @@ public  class UserServicesImpl implements UserServices {
 	}
 
 	@Override
-	public List<User> getAllUsers(Pageable pageable) {
+	public List<User> getAllUsers(Pageable pageable,String search) {
 		
-		return userRepository.findAll(pageable).getContent();
+		if(search == null) {
+			return userRepository.findAll(pageable).getContent();
+		}
+		else {
+			return userRepository.findByName(search, pageable).getContent();
+		}
+		
 	}
 
 	@Override

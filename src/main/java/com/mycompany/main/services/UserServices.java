@@ -1,9 +1,9 @@
 package com.mycompany.main.services;
 
-import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Pageable;
 
 import com.mycompany.main.entities.User;
 
@@ -18,5 +18,5 @@ public interface UserServices {
 	
 	public int deleteUserById(int id);
 
-	List<User> getAllUsers(org.springframework.data.domain.Pageable pageable);
+	List<User> getAllUsers(Pageable pageable,String search);
 }

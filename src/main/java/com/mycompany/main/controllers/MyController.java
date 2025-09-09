@@ -42,8 +42,8 @@ public class MyController {
 			@RequestParam (required = false, defaultValue = "1") int pageNo,
 			@RequestParam (required = false, defaultValue = "4") int pageSize,
 			@RequestParam (required = false, defaultValue = "id") String sortBy ,
-			@RequestParam (required = false, defaultValue = "Asc") String sortDir
-			) {
+			@RequestParam (required = false, defaultValue = "Asc") String sortDir,
+			@RequestParam (required = false) String search) {
 		
 		//select *from user limit pageSize offset (pageNo -1)*pageSize 
 		Sort sort = null;
@@ -55,7 +55,7 @@ public class MyController {
 			sort = Sort.by(sortBy).descending();
 		}
 		Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-		return userService.getAllUsers(pageable);
+		return userService.getAllUsers(pageable,search);
 	}
 	
 	@GetMapping("/email/{email}")
